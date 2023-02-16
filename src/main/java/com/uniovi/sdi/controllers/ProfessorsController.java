@@ -22,7 +22,6 @@ public class ProfessorsController {
 
     @RequestMapping(value="/professor/add",method = RequestMethod.POST)
     public String setProfessor(@ModelAttribute Professor professor) {
-        professor.setId(professorsService.getProfessors().get(professorsService.getProfessors().size()-1).getId()+1);
         professorsService.addProfessor(professor);
         return "redirect:/professor/list";
     }
