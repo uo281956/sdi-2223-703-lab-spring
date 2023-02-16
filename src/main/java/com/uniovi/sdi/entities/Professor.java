@@ -1,5 +1,7 @@
 package com.uniovi.sdi.entities;
 
+import com.uniovi.sdi.services.MarksService;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
