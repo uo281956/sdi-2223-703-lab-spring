@@ -26,7 +26,6 @@ public class ProfessorFormValidator implements Validator {
         Professor professor = (Professor) target;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"dni","error.empty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"name","error.empty");
-        System.out.println(professor.getDni());
 
         if(professor.getDni().length()!=9) {
             errors.rejectValue("dni", "Error.professor.dni.length");
