@@ -1,6 +1,7 @@
 package com.uniovi.sdi.controllers;
 
 import com.uniovi.sdi.entities.User;
+import com.uniovi.sdi.services.RolesService;
 import com.uniovi.sdi.services.SecurityService;
 import com.uniovi.sdi.services.UsersService;
 import com.uniovi.sdi.validators.SignUpFormValidator;
@@ -27,6 +28,9 @@ public class UsersController {
     @Autowired
     private SignUpFormValidator signUpFormValidator;
 
+    @Autowired
+    private RolesService rolesService;
+
     @RequestMapping("/user/list")
     public String getListado(Model model) {
         model.addAttribute("usersList", usersService.getUsers());
@@ -42,7 +46,7 @@ public class UsersController {
 
     @RequestMapping(value = "/user/add")
     public String getUser(Model model) {
-        model.addAttribute("usersList", usersService.getUsers());
+        model.addAttribute("rolesList", rolesService.getRoles());
         return "user/add";
     }
     @RequestMapping(value = "/user/add", method = RequestMethod.POST)
@@ -82,7 +86,7 @@ public class UsersController {
         if(result.hasErrors()){
             return "signup";
         }
-
+        user.setRole(rolesService.getRoles()[0]);
         usersService.addUser(user);
         securityService.autoLogin(user.getDni(), user.getPasswordConfirm());
         return "redirect:home";
