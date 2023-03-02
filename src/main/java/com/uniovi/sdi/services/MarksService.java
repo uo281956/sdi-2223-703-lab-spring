@@ -18,6 +18,7 @@ import java.util.*;
 @Service
 public class MarksService {
 
+    @Autowired
     private final HttpSession httpSession;
 
     @Autowired
@@ -49,7 +50,7 @@ public class MarksService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String dni = auth.getName();
         Mark mark = marksRepository.findById(id).get();
-        if(mark.getUser().getDni().equals(dni)  ) {
+        if(mark.getUser().getDni().equals(dni) ) {
             marksRepository.updateResend(revised, id);
         }
     }
@@ -62,6 +63,8 @@ public class MarksService {
         if (user.getRole().equals("ROLE_PROFESSOR")) {
             marks = getMarks(pageable);
         }
+        System.out.println(marks.getTotalElements());
+        System.out.println(marks.getTotalPages());
         return marks;
     }
 

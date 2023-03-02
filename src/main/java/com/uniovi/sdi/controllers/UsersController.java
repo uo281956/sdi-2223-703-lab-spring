@@ -110,8 +110,9 @@ public class UsersController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String dni = auth.getName();
         User activeUser = usersService.getUserByDni(dni);
-        model.addAttribute("markList", marksService.getMarksForUser(pageable, activeUser));
         Page<Mark> marks = new PageImpl<Mark>(new LinkedList<Mark>());
+        marks = marksService.getMarksForUser(pageable, activeUser);
+        model.addAttribute("markList", marks.getContent());
         model.addAttribute("page", marks);
         return "home";
     }

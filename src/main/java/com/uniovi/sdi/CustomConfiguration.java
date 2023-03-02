@@ -1,5 +1,6 @@
 package com.uniovi.sdi;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.PageRequest;
@@ -10,12 +11,19 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.thymeleaf.Thymeleaf;
 
 import java.util.List;
 import java.util.Locale;
 
 @Configuration
 public class CustomConfiguration implements WebMvcConfigurer {
+
+    @Value("${spring.data.web.pageable.default-page-size}")
+    private int size;
+
+    @Value("${spring.data.web.pageable.page-parameter}")
+    private int page;
 
     @Bean
     public LocaleResolver localeResolver() {
@@ -38,8 +46,6 @@ public class CustomConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-        int page = 0;
-        int size = 5;
         PageableHandlerMethodArgumentResolver resolver = new PageableHandlerMethodArgumentResolver();
         resolver.setFallbackPageable(PageRequest.of(page, size));
         argumentResolvers.add(resolver);

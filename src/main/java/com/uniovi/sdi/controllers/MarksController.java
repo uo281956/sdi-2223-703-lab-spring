@@ -41,11 +41,11 @@ public class MarksController {
         User user = usersService.getUserByDni(dni);
         Page<Mark> marks = new PageImpl<Mark>(new LinkedList<Mark>());
         if(searchText !=null && !searchText.isEmpty()) {
-            model.addAttribute("markList",
-                    marksService.searchMarksByDescriptionAndNameForUser(pageable, searchText, user));
+            marks = marksService.searchMarksByDescriptionAndNameForUser(pageable, searchText, user);
         } else {
-            model.addAttribute("markList", marksService.getMarksForUser(pageable, user) );
+            marks= marksService.getMarksForUser(pageable, user);
         }
+        model.addAttribute("markList", marks.getContent());
         model.addAttribute("page", marks);
         return "mark/list";
     }
@@ -56,6 +56,8 @@ public class MarksController {
         User user = usersService.getUserByDni(dni);
         Page<Mark> marks = marksService.getMarksForUser(pageable,user);
         model.addAttribute("markList",marks.getContent());
+        System.out.println(marks.getTotalElements());
+        System.out.println(marks.getTotalPages());
         return "mark/list::tableMarks";
     }
 
