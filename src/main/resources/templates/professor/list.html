@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extrasspringsecurity4">
 <head th:replace="fragments/head"></head>
 
 <body>
@@ -29,9 +30,9 @@
                 <td th:text="${professor.name}"> Ejercicio 1</td>
                 <td th:text="${professor.apellido}">Ejercicio 1</td>
                 <td th:text="${professor.categoria}"> Ejercicio 1</td>
-                <td><a th:href="${'/professor/details/' + professor.id}">detalles</a></td>
-                <td><a th:href="${'/professor/edit/' + professor.id}">modificar</a></td>
-                <td><a th:href="${'/professor/delete/' + professor.id}">eliminar</a></td>
+                <td><a th:href="${'/professor/details/' + professor.id}" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_PROFESSOR')">detalles</a></td>
+                <td><a th:href="${'/professor/edit/' + professor.id}" sec:authorize="hasRole('ROLE_ADMIN')">modificar</a></td>
+                <td><a th:href="${'/professor/delete/' + professor.id}" sec:authorize="hasRole('ROLE_ADMIN')">eliminar</a></td>
             </tr>
             </tbody>
         </table>
