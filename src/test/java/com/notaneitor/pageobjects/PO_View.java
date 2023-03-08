@@ -1,21 +1,22 @@
 package com.notaneitor.pageobjects;
 
+import java.time.Duration;
 import java.util.List;
 
-import com.uniovi.notaneitor.util.SeleniumUtils;
+import com.notaneitor.util.SeleniumUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class PO_View {
 	
 	protected static PO_Properties p = new PO_Properties("messages");
-	protected static int timeout = 2;
+	protected static Duration timeout = Duration.ofSeconds(2);
 
-	public static int getTimeout() {
+	public static Duration getTimeout() {
 		return timeout;
 	}
 
-	public static void setTimeout(int timeout) {
+	public static void setTimeout(Duration timeout) {
 		PO_View.timeout = timeout;
 	}
 

@@ -1,6 +1,7 @@
 package com.notaneitor.util;
 
 
+import java.time.Duration;
 import java.util.List;
 
 
@@ -42,7 +43,7 @@ public class SeleniumUtils {
 	 * @param text: texto a buscar
 	 * @param timeout: el tiempo máximo que se esperará por la aparición del texto a buscar
 	 */
-	static public void waitTextIsNotPresentOnPage(WebDriver driver, String text, int timeout)
+	static public void waitTextIsNotPresentOnPage(WebDriver driver, String text, Duration timeout)
 	{
 		Boolean resultado = 
 				(new WebDriverWait(driver, timeout)).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[contains(text(),'" + text + "')]")));
@@ -58,7 +59,7 @@ public class SeleniumUtils {
 	 * @param timeout: el tiempo máximo que se esperará por la aparición del elemento a buscar con xpath
 	 * @return  Se retornará la lista de elementos resultantes de la búsqueda con xpath.
 	 */
-	static public List<WebElement> waitLoadElementsByXpath(WebDriver driver, String xpath, int timeout)
+	static public List<WebElement> waitLoadElementsByXpath(WebDriver driver, String xpath, Duration timeout)
 	{
 		WebElement result =
 				(new WebDriverWait(driver, timeout)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
@@ -76,7 +77,7 @@ public class SeleniumUtils {
 	 * @param timeout: el tiempo máximo que se esperará por la apareción del elemento a buscar con criterio/text.
 	 * @return Se retornará la lista de elementos resultantes de la búsqueda.
 	 */
-	static public List<WebElement> waitLoadElementsBy(WebDriver driver, String criterio, String text, int timeout)
+	static public List<WebElement> waitLoadElementsBy(WebDriver driver, String criterio, String text, Duration timeout)
 	{
 		String searchCriterio;
 		switch (criterio) {
