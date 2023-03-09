@@ -1,7 +1,7 @@
 package com.uniovi.sdi;
 
-import com.notaneitor.pageobjects.*;
-import com.notaneitor.util.SeleniumUtils;
+import com.uniovi.sdi.pageobjects.*;
+import com.uniovi.sdi.util.SeleniumUtils;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -15,11 +15,11 @@ import java.util.List;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class Sdi2223703SpringApplicationTests {
 
-    //static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-    //static String Geckodriver = "C:\\Path\\geckodriver-v0.30.0-win64.exe";
+    static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
+    static String Geckodriver = "C:\\Users\\uo281956\\Downloads\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Dev\\tools\\selenium\\geckodriver-v0.30.0-win64.exe";
-    static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
-    static String Geckodriver = "/Users/pelayodc/Downloads/PL-SDI-Sesión5-material/PL-SDI-Sesión5-material/geckodriver-v0.30.0-macos";
+    //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
+    //static String Geckodriver = "/Users/pelayodc/Downloads/PL-SDI-Sesión5-material/PL-SDI-Sesión5-material/geckodriver-v0.30.0-macos";
 
     //Común a Windows y a MACOSX
     static WebDriver driver = getDriver(PathFirefox, Geckodriver);
@@ -150,7 +150,7 @@ class Sdi2223703SpringApplicationTests {
         //Rellenamos el formulario
         PO_LoginView.fillForm(driver, "99999993D", "123456");
         //Comprobamos que entramos en la pagina privada del profesor
-        String checkText = "Notas del profesor";
+        String checkText = "99999993D";
         List<WebElement> result = PO_View.checkElementBy(driver, "text", checkText);
         Assertions.assertEquals(checkText, result.get(0).getText());
     }
@@ -163,7 +163,7 @@ class Sdi2223703SpringApplicationTests {
         //Rellenamos el formulario
         PO_LoginView.fillForm(driver, "99999988F", "123456");
         //Comprobamos que entramos en la pagina privada del administrador
-        String checkText = "Notas del administrador";
+        String checkText = "99999988F";
         List<WebElement> result = PO_View.checkElementBy(driver, "text", checkText);
         Assertions.assertEquals(checkText, result.get(0).getText());
     }
@@ -187,9 +187,9 @@ class Sdi2223703SpringApplicationTests {
         //Vamos al formulario de logueo.
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Rellenamos el formulario
-        PO_LoginView.fillForm(driver, "99999999A", "123456");
+        PO_LoginView.fillForm(driver, "99999990A", "123456");
         //Salimos de sesion
-        PO_LoginView.clickOption(driver,"logout","class", "btn btn-primary");
+        PO_PrivateView.logout(driver);
         //Comprobamos que salimos de sesión
         String checkText = "Identifícate";
         List<WebElement> result = PO_View.checkElementBy(driver, "text", checkText);
@@ -200,28 +200,24 @@ class Sdi2223703SpringApplicationTests {
     @Test
     @Order(14)
     public void PR12() {
-        //Vamos al formulario de logueo.
-        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-        //Rellenamos el formulario
-        PO_LoginView.fillForm(driver, "99999990A", "123456");
+        //Vamos al formulario de logueo e iniciamos sesion.
+        PO_PrivateView.fillFormLogin(driver, "99999990A", "123456");
         //COmprobamos que entramos en la pagina privada de Alumno
         String checkText = "Notas del usuario";
         List<WebElement> result = PO_View.checkElementBy(driver, "text", checkText);
         //Contamos el número de filas de notas
         List<WebElement> markList = SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",PO_View.getTimeout());
-        Assertions.assertEquals(4, markList.size());
+        Assertions.assertEquals(5, markList.size());
         //Ahora nos desconectamos y comprobamos que aparece el menú de registro
-        String loginText = PO_HomeView.getP().getString("signup.message", PO_Properties.getSPANISH());
-        PO_PrivateView.clickOption(driver, "logout", "text", loginText);
+        PO_PrivateView.logout(driver);
     }
 
     //PR13. Loguearse como estudiante y ver los detalles de la nota con Descripcion = Nota A2.
     @Test
     @Order(15)
     public void PR13() {
-        //Comprobamos que entramos en la pagina privada de Alumno
-        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-        PO_LoginView.fillForm(driver, "99999990A", "123456");
+        //Vamos al formulario de logueo e iniciamos sesion.
+        PO_PrivateView.fillFormLogin(driver, "99999990A", "123456");
         String checkText = "Notas del usuario";
         List<WebElement> result = PO_View.checkElementBy(driver, "text", checkText);
         //SeleniumUtils.esperarSegundos(driver, 1);
@@ -233,38 +229,30 @@ class Sdi2223703SpringApplicationTests {
         result = PO_View.checkElementBy(driver, "text", checkText);
         Assertions.assertEquals(checkText,result.get(0).getText());
         //Ahora nos desconectamos comprobamas que aparece el menu de registrarse
-        String loginText = PO_HomeView.getP().getString("signup.message", PO_Properties.getSPANISH());
-        PO_PrivateView.clickOption(driver, "logout", "text", loginText);
+        PO_PrivateView.logout(driver);
     }
 
     @Test
     @Order(16)
     public void PR14() {
-        //Vamos al formulario de login.
-        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-        PO_LoginView.fillForm(driver, "99999993D", "123456");
+        //Vamos al formulario de logueo e iniciamos sesion.
+        PO_PrivateView.fillFormLogin(driver, "99999993D", "123456");
         //Cmmprobamos que entramos en la pagina privada del Profesor
         PO_View.checkElementBy(driver, "text", "99999993D");
         //Pinchamos en la opción de menú de Notas: //li[contains(@id, 'marks-menu')]/a
-        List<WebElement> elements = PO_View.checkElementBy(driver, "free", "//li[contains(@id, 'marksmenu')]/a");
-        elements.get(0).click();
+        PO_PrivateView.click(driver, "//li[contains(@id, 'marks-menu')]/a", 0);
         //Esperamos a que aparezca la opción de añadir nota: //a[contains(@href, 'mark/add')]
-        elements = PO_View.checkElementBy(driver, "free", "//a[contains(@href, 'mark/add')]");
-        //Pinchamos en agregar Nota.
-        elements.get(0).click();
+        PO_PrivateView.click(driver, "//a[contains(@href, 'mark/add')]", 0);
         //Ahora vamos a rellenar la nota. //option[contains(@value, '4')]
         String checkText = "Nota Nueva 1";
         PO_PrivateView.fillFormAddMark(driver, 3, checkText, "8");
         //Esperamos a que se muestren los enlaces de paginación de la lista de notas
-        elements = PO_View.checkElementBy(driver, "free", "//a[contains(@class, 'page-link')]");
-        //Nos vamos a la última página
-        elements.get(3).click();
+        PO_PrivateView.click(driver, "//a[contains(@class, 'page-link')]", 3);
         //Comprobamos que aparece la nota en la página
-        elements = PO_View.checkElementBy(driver, "text", checkText);
+        List<WebElement> elements = PO_View.checkElementBy(driver, "text", checkText);
         Assertions.assertEquals(checkText, elements.get(0).getText());
         //Ahora nos desconectamos y comprobamos que aparece el menú de registrarse
-        String loginText = PO_HomeView.getP().getString("signup.message", PO_Properties.getSPANISH());
-        PO_PrivateView.clickOption(driver, "logout", "text", loginText);
+        PO_PrivateView.logout(driver);
     }
 
     @Test
@@ -276,7 +264,7 @@ class Sdi2223703SpringApplicationTests {
         //Comprobamos que entramos en la página privada del Profesor
         PO_View.checkElementBy(driver, "text", "99999993D");
         //Pinchamos en la opción de menú de Notas: //li[contains(@id, 'marks-menu')]/a
-        List<WebElement> elements = PO_View.checkElementBy(driver, "free", "//li[contains(@id, 'marksmenu')]/a");
+        List<WebElement> elements = PO_View.checkElementBy(driver, "free", "//li[contains(@id, 'marks-menu')]/a");
         elements.get(0).click();
         //Pinchamos en la opción de lista de notas.
         elements = PO_View.checkElementBy(driver, "free", "//a[contains(@href, 'mark/list')]");
@@ -287,7 +275,7 @@ class Sdi2223703SpringApplicationTests {
         elements.get(3).click();
         //Esperamos a que aparezca la Nueva nota en la última página
         //Y Pinchamos en el enlace de borrado de la Nota "Nota Nueva 1"
-        elements = PO_View.checkElementBy(driver, "free", "//td[contains(text(), 'Nota Nueva 1')]/followingsibling::*/a[contains(@href, 'mark/delete')]");
+        elements = PO_View.checkElementBy(driver, "free", "//a[contains(@href, 'mark/delete')]");
         elements.get(0).click();
         //Volvemos a la última página
         elements = PO_View.checkElementBy(driver, "free", "//a[contains(@class, 'page-link')]");
@@ -295,7 +283,6 @@ class Sdi2223703SpringApplicationTests {
         //Y esperamos a que NO aparezca la última "Nueva Nota 1"
         SeleniumUtils.waitTextIsNotPresentOnPage(driver, "Nota Nueva 1",PO_View.getTimeout());
         //Ahora nos desconectamos comprobamos que aparece el menú de registrarse
-        String loginText = PO_HomeView.getP().getString("signup.message", PO_Properties.getSPANISH());
-        PO_PrivateView.clickOption(driver, "logout", "text", loginText);
+        PO_PrivateView.logout(driver);
     }
 }
